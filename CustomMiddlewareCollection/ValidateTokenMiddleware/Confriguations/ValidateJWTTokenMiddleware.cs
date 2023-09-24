@@ -32,7 +32,7 @@ namespace CustomMiddlewareCollection.ValidateTokenMiddleware.Confriguations
                 // Create a custom response message
                 var responseMessage = new
                 {
-                    Message = "Invalid token."
+                    Message = "Please provide generated token for authorization"
                 };
                 // Serialize the response message to JSON
                 var jsonResponse = Newtonsoft.Json.JsonConvert.SerializeObject(responseMessage);
