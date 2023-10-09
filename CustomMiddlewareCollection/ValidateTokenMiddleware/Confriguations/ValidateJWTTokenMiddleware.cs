@@ -14,7 +14,7 @@ namespace CustomMiddlewareCollection.ValidateTokenMiddleware.Confriguations
     {
         private readonly RequestDelegate _next;
         private readonly string _authkey;
-
+        private readonly string[] accessContoller = { "/api/Users", "/api/AccountType"};
         public ValidateJWTTokenMiddleware(RequestDelegate next, string authkey)
         {
             _next = next;
@@ -55,9 +55,12 @@ namespace CustomMiddlewareCollection.ValidateTokenMiddleware.Confriguations
             // Check if the "Authorization" header is present and starts with "Bearer "
             if (string.IsNullOrWhiteSpace(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
             {
-                if (context.Request.Path.StartsWithSegments("/api/Users")) // Adjust the path as needed
+                foreach (var controller in accessContoller)
                 {
-                    return true; // Allow access to UserController without a token
+                    if (context.Request.Path.StartsWithSegments(controller)) // Adjust the path as needed
+                    {
+                        return true; // Allow access to UserController without a token
+                    }
                 }
                 return false; // Token is missing or in an invalid format
             }
